@@ -1,19 +1,65 @@
-# 🎈 Blank app template
+### Wofford's AI Footprint: An Investigation Into the Impact of Our AI Use on the Environment.
+Principle Investigator: Miles Goodale.
+Co Investigator: Dr. Kaye Savage.
 
-A simple Streamlit app template for you to modify!
+## Subject Information
+Type of Subject: Adults (over the age of 18) who either work for the college or are students.
+Intended Number of Subjects: 50.
+Time commitment for each subject: 10 minutes.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+## Research Protocol
+# Description of Study
+The term Artificial Intelligence (AI) refers to machine-learning models that can learn to make a prediction based on data. What most of the public is focused on today is Generative AI (Gen AI), which is a machine-learning model that is trained to create new data rather than predictions about a specific data set. A very simple example of Gen AI is autocomplete–it is trained on your speech patterns to suggest words that you were already going to say. One can think about large Gen AI models like Chat-GPT in a similar way; these models, instead of being trained on your specific speech pattern, are being trained on most of the available data on the internet (Zewe, 2023). Generative AI requires energy and water to run its data centers, resulting in a large resource footprint. Preliminary studies suggest that training Chat GPT-4 alone took between 57,045.624± MWh of energy, between 13,725± metric tons of CO2e (Ludvigsen, 2023), and for GPT-3 roughly 700,000 liters of water (McLean, 2023). The average query emits 4.32g of CO2 (Pederson, 2025). The scale at which queries are being asked and answered globally is difficult to comprehend, with between 700 and 800 million weekly users of Chat-GPT. So, focusing on a local scale can be helpful to understand how our community's usage feeds into the global cost of GenAI. My study will utilize an AI footprint calculator of my own making to estimate the AI footprint of the Wofford community as a whole.
+In the creation of my calculator, I have not found an AI footprint calculator that is meant for the everyday consumer that I could model mine off of. Rather, most calculators I have run into are used to examine the carbon footprint of a company’s or code’s AI usage. Delloite. has a comprehensive AI carbon footprint calculator, but it is specifically for measuring the impacts of AI products (seemingly that a company has developed or is employing in a project). This type of calculator, one that calculates the impact of a project, is the most common, as companies can capitalize on this. Many AI carbon footprint calculators, like Optim.AI’s, come with pricing plans in order to utilize the service. Those that do not are generally made to calculate the carbon footprint of code that researchers or developers are using (Schmidt, 2021). Neither of these use cases are applicable to the every day consumer. 
+All the calculators I found that did focus on individual use were not nearly as expansive as the others and were often developed by universities or researchers. Of all the individual AI footprint calculators I observed, Western Academy of Beijing had the most comprehensive calculator. Their “AI Environmental Footprint Estimator” considers not only text queries and AI searches but also image generations, video minutes, and coding tasks the user performs in a day. To factor in the emissions from specific energy grids, the calculator also asks about the region the individual is in: either the US or China. Once the calculator is filled out, it returns the individuals’ energy consumption in kWh, CO2 emissions in kg, and water usage in L. For comparisons, they use the equivalent of smartphone charges and hours of laptop use (energy consumption), as well as the kilometers driven (CO2 emissions) and trees needed to offset CO2 emissions. At the end, the calculator provides values indicating what the individual's results would be if they used AI this way daily for a year (Taylor, 2025). The other two calculators I studied that could calculate individual use take significantly less information into account when calculating emissions. The calculator made by Karn (n.d), while it does consider a multitude of different AI models, only asks for the number of queries to estimate the users’ emissions. The phrase “number of queries” does not specify the time period that Karn wishes to take into account, which can cause skewed data. In addition, Karn does not provide sources or methodology, while the other calculators do. Neither Karn’s nor Taylor’s models takes into account the length of the query, which can vary widely across users. Often, the data used to calculate emissions is based on an “average” query length, but this “average” query length is not standardized. To ensure that my calculator is tailored specifically to the individuals’ usage patterns, I used a function to calculate the users’ average query length, which is determined by the number of tokens in a query.
+Tokens are the language of AI; when a user inputs a question, the system converts the words to tokens, processes the tokens, and then converts those tokens back into words for the user. Calculating a token is not as simple as the number of words in a sentence; it can be counted by characters or words, with one token being either 4 characters or 3/4ths of a word (“What are tokens and how to count them?,” 2025). When coding my calculator in Python, I wanted to use a function that completes the token calculations for me. Ruby_coder (2023), a user on an OpenAI forum, shared a method to estimate token count, which can easily be transferred to different coding languages. Finding this, I converted their code to Python and adapted it for my use case. My calculator is explicitly modeled for Wofford, with one of the comparisons being Wofford’s AI footprint if everyone on campus (students and staff) used AI like the participant does. This provides the participant with a snapshot of what their AI footprint could look like on a larger scale. In addition, my calculator will be entirely anonymous, collecting only the participant's age and whether they are a student or staff member at Wofford. The calculator is still in the development stages, but the current questions I am asking participants are: “Are you a student or a staff member?” “How old are you?” “On average, how many queries do you input a week into Chat-GPT?” “What was your most recent query?” and “On average, how many times a week do you use a Google search? *Google automatically adds an AI summary to every search*” 
+At the end of the study, I will analyze the data from each participant to estimate Wofford’s overall AI footprint. I have been unable to find any studies that attempt to calculate a college’s AI footprint, let alone those that utilize participant data to estimate total usage. Further research will be conducted to find models on which I can base my analysis. A secondary analysis I will perform is discovering any correlations between AI usage and age or status at the college (student or staff). There have been studies that research the differences in views on AI usage between students and teachers, but I am not focusing on the participants' feelings, but rather on their usage. However, data from studies examining students' and teachers’ views of AI in education (Lin, 2024), as well as studies on the impact of AI on brain function while essay writing (Kosmyna, 2025), could be helpful in placing the outcomes of my research within the field of AI use in higher education.
+# References
+“AI GreenIMPACT Calculator.” Optium.AI, WordPress. n.d.
+https://optimaitech.org/servicios/sustainable-ai/ai-green-impact-calculator/.
 
-### How to run it on your own machine
+Duarte, Fabio. “Number of ChatGPT Users (October 2025).” Exploding Topics. 2 October 2025. https://explodingtopics.com/blog/chatgpt-users.
 
-1. Install the requirements
+Karn, Mandeep. “AI Query CO2 Emissions Calculator.” Streamlit. n.d.
+https://co2emission.streamlit.app.
 
-   ```
-   $ pip install -r requirements.txt
-   ```
+Kosmyna, Nataliya, et al. “Your Brain on ChatGPT: Accumulation of Cognitive Debt When Using an AI Assistant for Essay Writing Task.” arXiv, arXiv e-prints, 10 June 2025, https://arxiv.org/pdf/2506.08872v1.
 
-2. Run the app
+Lin, Luona. “A quarter of U.S. teachers say AI tools do more than good in K-12 education.” Pew Research Center, Pew Research Center. 14 May 2024. https://www.pewresearch.org/short-reads/2024/05/15a-quarter-of-u-s-teachers-say-ai-tools-do-more-harm-than-goodin-k-12-education/.
 
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+Ludvigsen, Kasper. “The carbon footprint of GPT-4.” Medium, Towards Data Science Archive. 18 July 2023. https://medium.com/data-science/the-carbon-footprint-of-gpt-4d6c676eb21ae.
+
+McLean, Sophie. “The Environmental Impact of ChatGPT: A Call for Sustainable Practices In AI Development.” Earth.org, Global Commons. 28 April 2023. https://earth.org/environmental-impact-chatgpt/.
+
+Pederson, Cam. “The Real Carbon Cost of an AI Token.” Ditchcarbon, Ditchcarbon Ltd 24 April 2025. https://ditchcarbon.com/blog/llm-carbon-emissions.
+
+Ruby_coder. “What is the OpenAI algorithm to calculate tokens?” OpenAI Developer
+Community, OpenAI. February 2023. https://community.openai.com/t/what-is-the-openai-algorithm-to-calculate-tokens/58237/3.
+
+Schmidt, Victor, et. al. “Track and reduce CO2 emissions from your computing.” Code Carbon. 2021. https://codecarbon.io.
+
+Shah, Jainil. “AI Carbon Footprint Calculator.” Delloite LLP. n.d.
+https://www.deloitte.com/uk/en/services/consulting/content?ai-carbon-footprint-calculator.html.
+
+Taylor, Steven. “AI Environmental Impact Calculator.” Western Academy of Beijing. 20
+October 2025. https://sites.google.com/i-biology.net/ai-footprint-estimator/home.
+
+“What are tokens and how to count them?” OpenAI. August 2025.
+https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them.
+
+Zewe, Adam. “Explained: Generative AI.” MIT News, Massachusetts Institute of Technology. 9 November 2023. https://news.mit.edu/2023/explained-generative-ai-1109.
+
+# Purpose and Potential Benefits
+I will develop an AI Footprint Calculator that calculates the environmental impact of an individual’s AI usage. The personalized insights into their AI use could benefit our environment by increasing awareness about usage and encouraging a reduction in use. Using the data from this calculator, I will estimate Wofford’s AI footprint. The knowledge of our AI footprint could benefit the college by providing data to support the implementation of a campus-wide AI policy.
+
+# Methods and Procedures
+I have created a model in Python coding that calculates an individual’s energy and water use, as well as their emissions from using Chat-GPT and Google’s AI summary. This model will be hosted on a website I create using Shiny, an application that simplifies building websites and apps, to develop an interactive survey interface. The data I will collect from participants is their age, whether they are students or staff members, the average number of queries they ask Chat-GPT per week, their most recent query, and the average number of times they use Google’s AI summary. In return, the model will store this data set for future analysis and use it to provide personalized insights into their AI footprint, along with accompanying comparisons. In terms of recruitment, I will post flyers around campus advertising the survey with a QR code, announce it in the daily announcements, ask professors to share it with their students, email staff/professors about it, send messages in club GroupMe’s asking students to complete it, and through word of mouth. The user interface/website is not yet complete so, in my attached flyer, I left a space for the QR code.
+
+# Subject Confidentiality
+No identifiable personal information will be collected; the only demographic information collected will be age and whether the individual is a student or staff member. The demographic data will be used to determine if there is a correlation between age and AI usage, as well as between student/staff member and AI usage. The individuals’ data will not be shared in any way that could reveal their identity.
+# Potential Risks to Subjects
+There are minimal risks associated with this survey. There is a chance that the outcome of the calculator distresses the participant. To counteract this, I will provide suggestions that will help curb the environmental impact of their AI use, a link to the wellness center’s booking page, and the number for the terrier help line.
+# Risk/Benefit Ratio
+The data collected from participants will enable the investigators to analyze the use of AI on Wofford’s campus, ultimately contributing to the growing body of research on AI use in higher education. Additionally, the environmental impact of AI use on college campuses is not well-researched, so the participant would be contributing to research in an emerging field of study. This research may support the development of a campus-wide AI policy at Wofford and increase awareness of an individual’s AI footprint.
+# Informed Consent
+Before entering the calculator, the participant must read a preliminary page outlining the consent form. The button to continue to the calculator will say that, by pressing the button and continuing to the calculator, the user consents to the terms of the study. The user interface (website) on which my survey will be hosted has not been created yet, but the preliminary page will include: a description of the study, its purpose, the estimated time required to complete it, a discussion of subject confidentiality, and potential risks to the subject.
