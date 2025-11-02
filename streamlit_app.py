@@ -1,15 +1,8 @@
 import streamlit as st
 import pandasql as psql
 import pandas as pd
-import os
-import json
-import tempfile
-import pathlib
-from collections.abc import Mapping, Sequence
-from streamlit_gsheets import GSheetsConnection
-import re
-import gspread
-from google.oauth2.service_account import Credentials
+from csv import writer
+
 
 def _safe_rerun():
     try:
@@ -44,7 +37,6 @@ if "form_inputs" not in st.session_state:
     st.session_state.form_inputs = None
 if "_sheet_written" not in st.session_state:
     st.session_state._sheet_written = False
-
 if not st.session_state.agreed:
     st.title("Your AI Footprint Calculator")
     st.markdown("""Please read the following before using the AI Footprint Calculator.
@@ -80,6 +72,7 @@ if not st.session_state.agreed:
     if submitted:
         st.session_state.agreed = True
         st.session_state.page = "form"
+        _safe_rerun()
     st.write("If you do not consent, please close this page.")
     st.subheader("References")
     st.markdown(""" 
@@ -117,12 +110,7 @@ def estimate_tokens(text, method="average"):
     elif method == "min":
         return min(tokens_count_word_est, tokens_count_char_est)
     else:
-        raise ValueError("Invalid method. Use 'average', 'words', 'chars', 'max', or 'min'.")
-
-def inputs_callback(dem_q1,dem_q2,q_1,q_2,q_3):    
-    with open('data.csv', 'a+') as f:
-        f.write(f"{dem_q1},{dem_q2},{q_1},{q_2},{q_3}\n")
-
+        raise ValueError("Invalid method. Use 'average', 'words', 'chars', 'max', or 'min'.")        
 if st.session_state.page == "form":
     st.title("AI Footprint Calculator")
     with st.form("AI Calc Data"):
@@ -176,8 +164,8 @@ if st.session_state.page == "form":
                     "g_co2_metric_tons": google_co2,
                     "g_water_liters": google_water,
                  }
-                if google_energy>0.0624:
-                    fridge_comp=google_energy/0.0625
+                if google_energy>1.4:
+                    fridge_comp=google_energy/1.5
                     fcomp_days=round((fridge_comp*2),2)
                     results["goog_comp"]["fridge_days_equivalent"] = fcomp_days
                 wgoog_energy=google_energy*2225
@@ -196,16 +184,22 @@ if st.session_state.page == "form":
                     "training_co2": round(training_co2,2),
                     "training_water": round(training_water,2),
                 }
-            inputs_callback(dem_q1,dem_q2,q_1,q_2,q_3)
+            list_data=[dem_q1,dem_q2,q_1,q_2,q_3,co2_per_week,l_per_week,energy_per_week,google_water,google_energy,google_co2]
+  
+            with open('data.csv', 'a', newline='') as f_object:  
+                writer_object = writer(f_object)
+                writer_object.writerow(list_data)  
+                f_object.close()
+            st.session_state.results = results
+            st.session_state.page = "results"
+            _safe_rerun()
         except Exception as e:
             st.error(f"An error occurred during calculation: {e}")
             st.exception(e)
 if st.session_state.page == "results":
     st.title("Your AI Footprint Results")
-
     results = st.session_state.get("results") or {}
     inputs = st.session_state.get("form_inputs") or {}
-
     if not results:
         st.info("No results available. Please fill out the form first.")
         if st.button("Go to form"):
@@ -239,8 +233,7 @@ if st.session_state.page == "results":
         comparisons = results.get("comparisons", {})
         if comparisons:
             st.write(
-                f'The energy produced from your weekly Chat-GPT usage is equivalent to running a fridge for {comparisons.get("fridge_days")} consecutive days, and'
-                f' the CO2 you emit is equivalent to {comparisons.get("cars_equivalent_per_year")} passenger vehicle(s) yearly emissions.'
+                f'The energy produced from your weekly Chat-GPT usage is equivalent to running a fridge for {comparisons.get("fridge_days")} consecutive days.'
             )
         else:
             st.write("No comparison data available.")
@@ -249,7 +242,7 @@ if st.session_state.page == "results":
         google = results.get("google", {})
         if google:
             st.write(
-                f'You use an average of {google.get("g_co2_metric_tons")} grams of CO2 equivalent, '
+                f'You use an average of {google.get("g_co2_metric_tons")} grams of CO2, '
                 f"{google.get('g_water_liters')} liter(s) of water, "
                 f"and {google.get('g_energy_kwh')} kWh of energy per week from your AI-powered Google searches."
             )
@@ -261,7 +254,7 @@ if st.session_state.page == "results":
         if if_all_used_goog:
             st.write(
                 f'If all students and staff used AI-powered Google searches the way you do, we would emit '
-                f'{if_all_used_goog.get("wg_co2_metric_tons")} grams of CO2 equivalent, '
+                f'{if_all_used_goog.get("wg_co2_metric_tons")} grams of CO2, '
                 f'{if_all_used_goog.get("wg_water_liters")} liter(s) of water, '
                 f'and {if_all_used_goog.get("wg_energy_kwh")} kWh of energy per week.'
             )
@@ -271,8 +264,7 @@ if st.session_state.page == "results":
         goog_comp = results.get("goog_comp",{})
         if goog_comp:
             st.write(
-                f'The energy produced from your weekly AI google searches is equivalent to {goog_comp.get("fridge_days_equivalent")}, and'
-                f'the CO2 you emmit is equivalent to {goog_comp.get("car_equivalent_per_year")} passenger vehicle(s) yearly emmissions.'
+                f'The energy produced from your weekly AI google searches is equivalent to running a fridge for {goog_comp.get("fridge_days_equivalent")} consecutive days.'
             )
         else:
             st.write("No comparison data available.")
