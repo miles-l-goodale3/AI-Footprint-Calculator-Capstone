@@ -2,12 +2,4 @@ streamlit
 streamlit==1.22
 git+https://github.com/streamlit/gsheets-connection
 pandasql
-os
-json
-tempfile
-pathlib
-collections.abc
-streamlit_gsheets
-re
-gspread
-google.oauth2.service_account
+csv
