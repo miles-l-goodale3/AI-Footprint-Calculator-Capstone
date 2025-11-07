@@ -42,30 +42,8 @@ if not st.session_state.agreed:
     st.markdown("""Please read the following before using the AI Footprint Calculator.
                 
     Estimated completion time: 10 minutes""")
-    st.subheader("Purpose of Study")
-    st.markdown(
-        """
-    This calculator collects data from participants to then estimate the AI footprint of Wofford as a whole. In addition, participants will receive personalized insights into their AI use, which could encourage reduced use through increased awareness. Ultimately, this study will contribute to the emerging field of AI use in higher education and may support the development of a campus-wide AI policy at Wofford.
-"""
-    )
-    st.subheader("Description of Study")
-    st.markdown(
-        """
-        The term Artificial Intelligence (AI) refers to machine-learning models that can learn to make a prediction based on data. What most of the public is focused on today is Generative AI (Gen AI), which is a machine-learning model that is trained to create new data rather than predictions about a specific dataset.
-        
-        A simple example of Gen AI is autocomplete—it is trained on your speech patterns to suggest words you were already going to say. One can think of large Gen AI models like ChatGPT in a similar way: instead of being trained on your specific speech patterns, they are trained on most of the available data on the internet (Zewe, 2023). 
-        
-        Gen AI requires energy and water to run its data centers, resulting in a large resource footprint. Preliminary studies suggest that training ChatGPT-4 alone took between 57,045.624± MWh of energy, between 13,725± metric tons of CO2e (Ludvigsen, 2023), and for GPT-3 roughly 700,000 liters of water (McLean, 2023). The average query emits 4.32g of CO2 (Pederson, 2025). The scale at which queries are being asked and answered globally is difficult to comprehend, with between 700 and 800 million weekly users of ChatGPT. So, focusing on a local scale can help individuals at Wofford understand how our community's usage contributes to the global cost of Gen AI. 
-        
-        This AI footprint calculator will allow the researchers to estimate the AI footprint of the Wofford community as a whole. In addition, the researchers will conduct an analysis to identify any correlations between AI usage and age or college status (student or staff).
-        """)
-    st.subheader("Subject Confidentiality")
-    st.markdown("""
-               No identifiable personal information will be collected; the only demographic information collected will be age and whether the individual is a student or staff member. The demographic data will be used to determine if there is a correlation between age and AI usage, as well as between status at the college and AI usage. The participants’ data will not be shared in any way that could reveal their identity.
-""" )
-    st.subheader("Risks")
-    st.markdown(""" Minimal risks are associated with this survey. There is a chance that the calculator's outcome distresses the participant. However, if this occurs, participants will have access to resources that may reduce distress on the final page of the survey (after completion). """)
     st.subheader("Consent to Participate")
+    st.markdown("""This calculator is not currently storing user inputs for analysis.""")
     
     with st.form("consent_form"):
         submitted = st.form_submit_button("I have read and consent to the terms above.")
@@ -74,21 +52,6 @@ if not st.session_state.agreed:
         st.session_state.page = "form"
         _safe_rerun()
     st.write("If you do not consent, please close this page.")
-    st.subheader("References")
-    st.markdown(""" 
-Ludvigsen, Kasper. “The carbon footprint of GPT-4.” Medium, Towards Data Science Archive. 18 July 2023. https://medium.com/data-science/the-carbon-footprint-of-gpt-4 d6c676eb21ae. 
-                
-McLean, Sophie. “The Environmental Impact of ChatGPT: A Call for Sustainable Practices in AI Development.” Earth.org, Global Commons. 28 April 2023. https://earth.org/environmental-impact-chatgpt/.
-
-Pederson, Cam. “The Real Carbon Cost of an AI Token.” Ditchcarbon, Ditchcarbon Ltd. 24
-April 2025. https://ditchcarbon.com/blog/llm-carbon-emissions.
-
-                
-Zewe, Adam. “Explained: Generative AI.” MIT News, Massachusetts Institute of Technology. 9
-November 2023. https://news.mit.edu/2023/explained-generative-ai-1109.
-
-
-""")
     st.stop()
 
 def estimate_tokens(text, method="average"):
@@ -116,9 +79,9 @@ if st.session_state.page == "form":
     with st.form("AI Calc Data"):
         dem_q1 = st.selectbox('Are you a student or a staff/faculty member at Wofford College?',['Student', 'Staff/Faculty'], key = 'dem_q1')
         dem_q2 = st.number_input('How old are you?', 18, 90, key = 'dem_q2')
-        q_1 = st.slider('On average how many queries do you input a week into Chat-GTP?', 0, 50, value = 5, key = 'q_1')
+        q_1 = st.numner_input('Typically, how many queries do you input a week into Chat-GTP?', 0, 200, value = 5, key = 'q_1')
         q_2 = st.text_input('What was your most recent query?', 'Enter query here', key = 'q_2')
-        q_3=st.slider('On average how many times a week do you use google? *AI summary is automatically generated for any google query*',0,100, value = 5, key = 'q_3')
+        q_3=st.slider('How many times a week do you use google? *AI summary is automatically generated for any google query*',0,100, value = 5, key = 'q_3')
         submit = st.form_submit_button("Submit")
     if submit:
         st.session_state.form_inputs = {
@@ -168,9 +131,9 @@ if st.session_state.page == "form":
                     fridge_comp=google_energy/1.5
                     fcomp_days=round((fridge_comp*2),2)
                     results["goog_comp"]["fridge_days_equivalent"] = fcomp_days
-                wgoog_energy=google_energy*2225
-                wgoog_co2=google_co2*2225
-                wgoog_water=google_water*2225
+                wgoog_energy=round((google_energy*2225),2)
+                wgoog_co2=round((google_co2*2225),2)
+                wgoog_water=round((google_water*2225),2)
                 results["if_all_used_goog"] = {
                     "wg_energy_kwh": wgoog_energy,
                     "wg_co2_metric_tons": wgoog_co2,
@@ -184,12 +147,6 @@ if st.session_state.page == "form":
                     "training_co2": round(training_co2,2),
                     "training_water": round(training_water,2),
                 }
-            list_data=[dem_q1,dem_q2,q_1,q_2,q_3,co2_per_week,l_per_week,energy_per_week,google_water,google_energy,google_co2]
-  
-            with open('data.csv', 'a', newline='') as f_object:  
-                writer_object = writer(f_object)
-                writer_object.writerow(list_data)  
-                f_object.close()
             st.session_state.results = results
             st.session_state.page = "results"
             _safe_rerun()
