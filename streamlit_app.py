@@ -41,7 +41,7 @@ if not st.session_state.agreed:
     st.title("Your AI Footprint Calculator")
     st.markdown("""Please read the following before using the AI Footprint Calculator.
                 
-    Estimated completion time: 10 minutes""")
+    Estimated completion time: 5 - 10 minutes""")
     st.subheader("Consent to Participate")
     st.markdown("""This calculator is not currently storing user inputs for analysis.""")
     
