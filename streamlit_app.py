@@ -79,7 +79,7 @@ if st.session_state.page == "form":
     with st.form("AI Calc Data"):
         dem_q1 = st.selectbox('Are you a student or a staff/faculty member at Wofford College?',['Student', 'Staff/Faculty'], key = 'dem_q1')
         dem_q2 = st.number_input('How old are you?', 18, 90, key = 'dem_q2')
-        q_1 = st.numner_input('Typically, how many queries do you input a week into Chat-GTP?', 0, 200, value = 5, key = 'q_1')
+        q_1 = st.number_input('Typically, how many queries do you input a week into Chat-GTP?', 0, 200, value = 5, key = 'q_1')
         q_2 = st.text_input('What was your most recent query?', 'Enter query here', key = 'q_2')
         q_3=st.slider('How many times a week do you use google? *AI summary is automatically generated for any google query*',0,100, value = 5, key = 'q_3')
         submit = st.form_submit_button("Submit")
