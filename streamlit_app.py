@@ -1,8 +1,4 @@
 import streamlit as st
-import pandasql as psql
-import pandas as pd
-from csv import writer
-
 
 def _safe_rerun():
     try:
@@ -37,14 +33,16 @@ if "form_inputs" not in st.session_state:
     st.session_state.form_inputs = None
 if "_sheet_written" not in st.session_state:
     st.session_state._sheet_written = False
+if "_more_info" not in st.session_state:
+    st.session_state._more_info = False
 if not st.session_state.agreed:
     st.title("Your AI Footprint Calculator")
     st.markdown("""Please read the following before using the AI Footprint Calculator.
                 
     Estimated completion time: 5 - 10 minutes""")
-    st.subheader("Consent to Participate")
     st.markdown("""This calculator is not currently storing user inputs for analysis.""")
-    
+
+    st.subheader("Consent to Participate")
     with st.form("consent_form"):
         submitted = st.form_submit_button("I have read and consent to the terms above.")
     if submitted:
@@ -52,6 +50,7 @@ if not st.session_state.agreed:
         st.session_state.page = "form"
         _safe_rerun()
     st.write("If you do not consent, please close this page.")
+
     st.stop()
 
 def estimate_tokens(text, method="average"):
@@ -147,12 +146,14 @@ if st.session_state.page == "form":
                     "training_co2": round(training_co2,2),
                     "training_water": round(training_water,2),
                 }
+  
             st.session_state.results = results
             st.session_state.page = "results"
             _safe_rerun()
         except Exception as e:
             st.error(f"An error occurred during calculation: {e}")
             st.exception(e)
+
 if st.session_state.page == "results":
     st.title("Your AI Footprint Results")
     results = st.session_state.get("results") or {}
@@ -201,7 +202,7 @@ if st.session_state.page == "results":
             st.write(
                 f'You use an average of {google.get("g_co2_metric_tons")} grams of CO2, '
                 f"{google.get('g_water_liters')} liter(s) of water, "
-                f"and {google.get('g_energy_kwh')} kWh of energy per week from your AI-powered Google searches."
+                f"and {google.get('g_energy_kwh')} kW of energy per week from your AI-powered Google searches."
             )
         else:
             st.write("No AI-powered Google search usage data (q_3 was 0).")
@@ -213,7 +214,7 @@ if st.session_state.page == "results":
                 f'If all students and staff used AI-powered Google searches the way you do, we would emit '
                 f'{if_all_used_goog.get("wg_co2_metric_tons")} grams of CO2, '
                 f'{if_all_used_goog.get("wg_water_liters")} liter(s) of water, '
-                f'and {if_all_used_goog.get("wg_energy_kwh")} kWh of energy per week.'
+                f'and {if_all_used_goog.get("wg_energy_kwh")} kW of energy per week.'
             )
         else:
             st.write("No scaling data available for Google searches.")
@@ -226,14 +227,28 @@ if st.session_state.page == "results":
         else:
             st.write("No comparison data available.")
             
-        st.subheader("Training Costs")
+        st.subheader("Training Costs of Chat-GPT 3")
+        st.write("*These calculations come from the training of GPT-3 and GPT-4 before deployment and does not account for any further training Chat-GPT has gone through since.*")
         training_costs = results.get("training_costs", {})
         if training_costs:
             st.write(
-                f'The estimated environmental cost of training the AI model you used is '
+                f'The estimated environmental cost of training GPT-4 is '
                 f'{training_costs.get("training_co2")} metric ton(s) of CO2, '
-                f'{training_costs.get("training_water")} liter(s) of water, '
                 f'and {training_costs.get("training_energy_kwh")} kWh of energy.'
+                f' The amount of water used to train GPT-3 was {training_costs.get("training_water")} liter(s) of water.'
             )
         else:
             st.write("No training cost data available.")
+        st.subheader("Confused?")
+        clicked = st.button("Click here to learn why AI harms the environment.")
+        if clicked:
+            st.session_state.page = "_more_info"
+
+if st.session_state.page == "_more_info":
+    st.title("Why does AI harm the environment?")
+    st.header("Water Usage")
+    st.markdown("""Data centers generate an enormous amount of heat and the industry standard cooling system is the usage of water. """)
+    st.header("CO2 emmissions")
+    st.markdown("""As the demand for AI increases exponentially, the energy grid is struggling to keep up. Renewable energy cannot provide the mass amounts of energy that data centers requires, causing a reliance on fossil fuels to fill the gap. Many AI companies have rolled back their net zero carbon emmission timelines/statements in a direct response to this increased reliance on fossil fuels.""")
+    st.header("Energy Consumption")
+    st.markdown("""AI is hungry. It requires massive amounts of energy to both be trained and to run. """)
