@@ -1,5 +1,11 @@
 import streamlit as st
 
+if 'clicked' not in st.session_state:
+    st.session_state.clicked = False
+
+def click_button():
+    st.session_state.clicked = True
+    
 def _safe_rerun():
     try:
         st.experimental_rerun()
@@ -195,7 +201,19 @@ if st.session_state.page == "results":
             )
         else:
             st.write("No comparison data available.")
-            
+
+        st.subheader("Training Costs of Chat-GPT")
+        st.write("*These calculations come from the training of GPT-3 and GPT-4 before deployment and does not account for any further training Chat-GPT has gone through since.*")
+        training_costs = results.get("training_costs", {})
+        if training_costs:
+            st.write(
+                f'The estimated environmental cost of training GPT-4 is '
+                f'{training_costs.get("training_co2")} metric ton(s) of CO2, '
+                f'and {training_costs.get("training_energy_kwh")} kWh of energy.'
+                f' The amount of water used to train GPT-3 was {training_costs.get("training_water")} liter(s) of water.'
+            )
+        else:
+            st.write("No training cost data available.")   
         st.subheader("AI-powered Google searches")
         google = results.get("google", {})
         if google:
@@ -227,28 +245,6 @@ if st.session_state.page == "results":
         else:
             st.write("No comparison data available.")
             
-        st.subheader("Training Costs of Chat-GPT 3")
-        st.write("*These calculations come from the training of GPT-3 and GPT-4 before deployment and does not account for any further training Chat-GPT has gone through since.*")
-        training_costs = results.get("training_costs", {})
-        if training_costs:
-            st.write(
-                f'The estimated environmental cost of training GPT-4 is '
-                f'{training_costs.get("training_co2")} metric ton(s) of CO2, '
-                f'and {training_costs.get("training_energy_kwh")} kWh of energy.'
-                f' The amount of water used to train GPT-3 was {training_costs.get("training_water")} liter(s) of water.'
-            )
-        else:
-            st.write("No training cost data available.")
-        st.subheader("Confused?")
-        clicked = st.button("Click here to learn why AI harms the environment.")
-        if clicked:
-            st.session_state.page = "_more_info"
 
-if st.session_state.page == "_more_info":
-    st.title("Why does AI harm the environment?")
-    st.header("Water Usage")
-    st.markdown("""Data centers generate an enormous amount of heat and the industry standard cooling system is the usage of water. """)
-    st.header("CO2 emmissions")
-    st.markdown("""As the demand for AI increases exponentially, the energy grid is struggling to keep up. Renewable energy cannot provide the mass amounts of energy that data centers requires, causing a reliance on fossil fuels to fill the gap. Many AI companies have rolled back their net zero carbon emmission timelines/statements in a direct response to this increased reliance on fossil fuels.""")
-    st.header("Energy Consumption")
-    st.markdown("""AI is hungry. It requires massive amounts of energy to both be trained and to run. """)
+        st.subheader("Confused?")
+        st.write("*Additional information coming soon.*")
