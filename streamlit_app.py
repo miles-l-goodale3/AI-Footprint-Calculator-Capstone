@@ -144,14 +144,6 @@ if st.session_state.page == "form":
                     "wg_co2_metric_tons": wgoog_co2,
                     "wg_water_liters": wgoog_water,
                     }
-                training_energy_kwh=57045625000/700000000
-                training_co2=13725000000/700000000
-                training_water=700000000/700000000
-                results["training_costs"] = {
-                    "training_energy_kwh": round(training_energy_kwh,2),
-                    "training_co2": round(training_co2,2),
-                    "training_water": round(training_water,2),
-                }
   
             st.session_state.results = results
             st.session_state.page = "results"
@@ -204,16 +196,12 @@ if st.session_state.page == "results":
 
         st.subheader("Training Costs of Chat-GPT")
         st.write("*These calculations come from the training of GPT-3 and GPT-4 before deployment and does not account for any further training Chat-GPT has gone through since.*")
-        training_costs = results.get("training_costs", {})
-        if training_costs:
-            st.write(
-                f'The estimated environmental cost of training GPT-4 is '
-                f'{training_costs.get("training_co2")} metric ton(s) of CO2, '
-                f'and {training_costs.get("training_energy_kwh")} kWh of energy.'
-                f' The amount of water used to train GPT-3 was {training_costs.get("training_water")} liter(s) of water.'
-            )
-        else:
-            st.write("No training cost data available.")   
+        st.write(
+            f'The estimated environmental cost of training GPT-4 is '
+            f' 13,725 metric ton(s) of CO2 '
+            f'and 57,045,625 kWh of energy.'
+            f' GPT-3 used 700,000 liter(s) of water in its training.'
+        ) 
         st.subheader("AI-powered Google searches")
         google = results.get("google", {})
         if google:
