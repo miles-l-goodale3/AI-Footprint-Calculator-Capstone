@@ -86,7 +86,7 @@ if st.session_state.page == "form":
         dem_q2 = st.number_input('How old are you?', 18, 90, key = 'dem_q2')
         q_1 = st.number_input('Typically, how many queries do you input a week into Chat-GTP?', 0, 200, value = 5, key = 'q_1')
         q_2 = st.text_input('What was your most recent query?', 'Enter query here', key = 'q_2')
-        q_3=st.slider('How many times a week do you use google? *AI summary is automatically generated for any google query*',0,100, value = 5, key = 'q_3')
+        q_3=st.number_input('How many times a week do you use google? *AI summary is automatically generated for any google query*',0,500, value = 5, key = 'q_3')
         submit = st.form_submit_button("Submit")
     if submit:
         st.session_state.form_inputs = {
@@ -111,9 +111,9 @@ if st.session_state.page == "form":
                     "water_liters": l_per_week,
                     "energy_kwh": energy_per_week,
                 }
-                wai_co2=round((co2_per_week*2225),2)
-                wai_water=round((l_per_week*2225),2)
-                wai_energy=round((energy_per_week*2225),2)
+                wai_co2=round((co2_per_week*2223),2)
+                wai_water=round((l_per_week*2223),2)
+                wai_energy=round((energy_per_week*2223),2)
                 results["if_all_used"] = {
                     "wai_co2_metric_tons": wai_co2,
                     "wai_water_liters": wai_water,
@@ -136,9 +136,9 @@ if st.session_state.page == "form":
                     fridge_comp=google_energy/1.5
                     fcomp_days=round((fridge_comp*2),2)
                     results["goog_comp"]["fridge_days_equivalent"] = fcomp_days
-                wgoog_energy=round((google_energy*2225),2)
-                wgoog_co2=round((google_co2*2225),2)
-                wgoog_water=round((google_water*2225),2)
+                wgoog_energy=round((google_energy*2223),2)
+                wgoog_co2=round((google_co2*2223),2)
+                wgoog_water=round((google_water*2223),2)
                 results["if_all_used_goog"] = {
                     "wg_energy_kwh": wgoog_energy,
                     "wg_co2_metric_tons": wgoog_co2,
