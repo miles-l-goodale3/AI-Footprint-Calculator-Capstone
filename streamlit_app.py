@@ -111,9 +111,9 @@ if st.session_state.page == "form":
                     "water_liters": l_per_week,
                     "energy_kwh": energy_per_week,
                 }
-                wai_co2=round((co2_per_week*2223),2)
-                wai_water=round((l_per_week*2223),2)
-                wai_energy=round((energy_per_week*2223),2)
+                wai_co2=round((co2_per_week*2387),2)
+                wai_water=round((l_per_week*2387),2)
+                wai_energy=round((energy_per_week*2387),2)
                 results["if_all_used"] = {
                     "wai_co2_metric_tons": wai_co2,
                     "wai_water_liters": wai_water,
@@ -136,9 +136,9 @@ if st.session_state.page == "form":
                     fridge_comp=google_energy/1.5
                     fcomp_days=round((fridge_comp*2),2)
                     results["goog_comp"]["fridge_days_equivalent"] = fcomp_days
-                wgoog_energy=round((google_energy*2223),2)
-                wgoog_co2=round((google_co2*2223),2)
-                wgoog_water=round((google_water*2223),2)
+                wgoog_energy=round((google_energy*2387),2)
+                wgoog_co2=round((google_co2*2387),2)
+                wgoog_water=round((google_water*2387),2)
                 results["if_all_used_goog"] = {
                     "wg_energy_kwh": wgoog_energy,
                     "wg_co2_metric_tons": wgoog_co2,
