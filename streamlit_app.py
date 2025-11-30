@@ -246,9 +246,5 @@ if st.session_state.page == "_more_info":
     st.header("CO2 emmissions & Energy Consumption")
     st.markdown("""As the demand for AI increases exponentially, the energy grid is struggling to keep up. Renewable energy cannot provide the mass amounts of energy that data centers require, causing companies to rely on fossil fuels to fill the gap. Many companies will not be able to meet their net zero carbon emmission pledges in the time origionally proposed. Microsoft's electricty consumption increassed by 34% in just one year; the company cited the building of new data centers as the cause of the increase [2].""")
     st.subheader("References")
-    st.markdown(""" [1] Shulka, Nikita. “Generative AI Is Exhausting the Power Grid.” EARTH.ORG, Earth.org. 5
-August 2024. https://earth.org/generative-ai-is-exhausting-the-power-grid/. 
-[2] Berreby, David. “As Use of AI Soars, So Does the Energy and Water It Requires.” Yale
-Environment 360, Yale School of the Environment. 6 February 2024.
-https://e360.yale.edu/features/artificial-intelligence-climate-energy-emissions.
-""")
+    st.markdown("""[1] Shulka, Nikita. “Generative AI Is Exhausting the Power Grid.” EARTH.ORG, Earth.org. 5 August 2024. https://earth.org/generative-ai-is-exhausting-the-power-grid/.""")
+    st.markdown("""[2] Berreby, David. “As Use of AI Soars, So Does the Energy and Water It Requires.” Yale Environment 360, Yale School of the Environment. 6 February 2024. https://e360.yale.edu/features/artificial-intelligence-climate-energy-emissions.""")
