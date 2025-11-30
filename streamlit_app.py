@@ -240,7 +240,7 @@ if st.session_state.page == "results":
             _safe_rerun()
 
 if st.session_state.page == "_more_info":
-    st.title("Why does AI harm the environment?") #i need to talk about what a data center is and that it is wht runs AI
+    st.title("How does AI harm the environment?") #i need to talk about what a data center is and that it is wht runs AI
     st.header("Water Usage")
     st.markdown("""Data centers generate an enormous amount of heat. Data centers cool their buildings with water but, because the machines are so delicate, the water used must be free from impurities and bacteria. Effectively, data centers consume the same water we do which raises concerns that AI could harm regions already experiencing water scarcity [1]. """)
     st.header("CO2 emmissions & Energy Consumption")
