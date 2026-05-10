@@ -102,9 +102,8 @@ if not st.session_state.agreed:
                         "wai_energy_kwh": wai_energy,
                     }
                     if energy_per_week>0.0624:
-                        fridge_comp=energy_per_week/0.0625
-                        fcomp_days=int(fridge_comp*2)
-                        results["comparisons"]["fridge_days"] = fcomp_days
+                        fridge_comp=int(energy_per_week/0.0625)
+                        results["comparisons"]["fridge_days"] = fridge_comp
                 if q_3>0.99:
                     google_energy=round((q_3*0.24),2)
                     google_co2=round((q_3*0.03),2)
@@ -117,7 +116,7 @@ if not st.session_state.agreed:
                     if google_energy>1.4:
                         fridge_comp=google_energy/1.5
                         fcomp_days=round((fridge_comp*2),2)
-                        results["goog_comp"]["fridge_days_equivalent"] = fcomp_days
+                        results["goog_comp"]["fridge_days_equivalent"] = fridge_comp
                     wgoog_energy=round((google_energy*2387),2)
                     wgoog_co2=round((google_co2*2387),2)
                     wgoog_water=round((google_water*2387),2)
