@@ -149,7 +149,7 @@ if st.session_state.page == "results":
             st.write(
                 f'You use an average of {per_week.get("co2_metric_tons")} grams of CO2, '
                 f"{per_week.get('water_liters')} mL of water, "
-                f"and {per_week.get('energy_kwh')} kW of power per week."
+                f"and use {per_week.get('energy_kwh')} kW of power per week."
             )
         else:
             st.write("No per-week Chat-GPT usage data available.")
@@ -189,7 +189,7 @@ if st.session_state.page == "results":
             st.write(
                 f'You use an average of {google.get("g_co2_metric_tons")} grams of CO2, '
                 f"{google.get('g_water_liters')} liter(s) of water, "
-                f"and use{google.get('g_energy_kwh')} kW of power per week from your AI-powered Google searches."
+                f"and use {google.get('g_energy_kwh')} kW of power per week from your AI-powered Google searches."
             )
         else:
             st.write("No AI-powered Google search usage data.")
@@ -201,7 +201,7 @@ if st.session_state.page == "results":
                 f'If all students and staff/faculty used Google the way you do, we would emit '
                 f'{if_all_used_goog.get("wg_co2_metric_tons")} grams of CO2, '
                 f'{if_all_used_goog.get("wg_water_liters")} liter(s) of water, '
-                f'and use{if_all_used_goog.get("wg_energy_kwh")} kW of power per week.'
+                f'and use {if_all_used_goog.get("wg_energy_kwh")} kW of power per week.'
             )
         else:
             st.write("No scaling data available for Google searches.")
