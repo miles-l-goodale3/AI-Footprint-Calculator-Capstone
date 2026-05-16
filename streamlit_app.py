@@ -115,7 +115,7 @@ if not st.session_state.agreed:
                     }
                     if google_energy>1.4:
                         fridge_comp=google_energy/1.5
-                        fcomp_days=round((fridge_comp*2),2)
+                        fcomp_days=round(fridge_comp,2)
                         results["goog_comp"]["fridge_days_equivalent"] = fridge_comp
                     wgoog_energy=round((google_energy*2387),2)
                     wgoog_co2=round((google_co2*2387),2)
@@ -143,65 +143,65 @@ if st.session_state.page == "results":
             st.session_state.page = "form"
             _safe_rerun()
     else:
-        st.subheader("Per-week estimates")
+        st.subheader("Chat-GPT Weekly Estimates")
         per_week = results.get("per_week", {})
         if per_week:
             st.write(
                 f'You use an average of {per_week.get("co2_metric_tons")} grams of CO2, '
                 f"{per_week.get('water_liters')} mL of water, "
-                f"and {per_week.get('energy_kwh')} kW of energy per week."
+                f"and {per_week.get('energy_kwh')} kW of power per week."
             )
         else:
-            st.write("No per-week AI Chat-GPT usage data (q_1 was 0).")
-
-        st.subheader("Scaled Chat-GPT Usage to all students & faculty")
-        if_all_used = results.get("if_all_used", {})
-        if if_all_used:
-            st.write(
-                f'If all students and staff used AI the way you do, we would emit '
-                f'{if_all_used.get("wai_co2_metric_tons")} grams of CO2, '
-                f'{if_all_used.get("wai_water_liters")} mL of water, '
-                f'and {if_all_used.get("wai_energy_kwh")} kW of energy per week.'
-            )
-        else:
-            st.write("No scaling data available.")
+            st.write("No per-week Chat-GPT usage data available.")
             
         st.subheader("Comparisons / equivalents")
         comparisons = results.get("comparisons", {})
         if comparisons:
             st.write(
-                f'The energy produced from your weekly Chat-GPT usage is equivalent to running a fridge for {comparisons.get("fridge_days")} consecutive days.'
+                f'The power consumed from your weekly Chat-GPT usage is equivalent to running a fridge for {comparisons.get("fridge_days")} consecutive days.'
             )
         else:
             st.write("No comparison data available.")
+
+        st.subheader("Wofford Chat-GPT Weekly Estimates")
+        if_all_used = results.get("if_all_used", {})
+        if if_all_used:
+            st.write(
+                f'If all students and staff/faculty used Chat-GPT the way you do, we would emit '
+                f'{if_all_used.get("wai_co2_metric_tons")} grams of CO2, '
+                f'{if_all_used.get("wai_water_liters")} mL of water, '
+                f'and use {if_all_used.get("wai_energy_kwh")} kW of power per week.'
+            )
+        else:
+            st.write("No scaling data available.")
 
         st.subheader("Training Costs of Chat-GPT")
         st.write("*These calculations come from the training of GPT-3 and GPT-4 before deployment and does not account for any further training Chat-GPT has gone through since.*")
         st.write(
             f'The estimated environmental cost of training GPT-4 is '
             f' 13,725 metric ton(s) of CO2 '
-            f'and 57,045,625 kWh of energy.'
+            f'and 57,045,625 kWh of power.'
             f' GPT-3 used 700,000 liter(s) of water in its training.'
         ) 
-        st.subheader("AI-powered Google searches")
+        st.subheader("Google AI Summary Weekly Estimates")
         google = results.get("google", {})
         if google:
             st.write(
                 f'You use an average of {google.get("g_co2_metric_tons")} grams of CO2, '
                 f"{google.get('g_water_liters')} liter(s) of water, "
-                f"and {google.get('g_energy_kwh')} kW of energy per week from your AI-powered Google searches."
+                f"and use{google.get('g_energy_kwh')} kW of power per week from your AI-powered Google searches."
             )
         else:
-            st.write("No AI-powered Google search usage data (q_3 was 0).")
+            st.write("No AI-powered Google search usage data.")
             
-        st.subheader("Scaled Google search usage")
+        st.subheader("Wofford Google AI Summary Weekly Estimates")
         if_all_used_goog = results.get("if_all_used_goog", {})
         if if_all_used_goog:
             st.write(
-                f'If all students and staff used AI-powered Google searches the way you do, we would emit '
+                f'If all students and staff/faculty used Google the way you do, we would emit '
                 f'{if_all_used_goog.get("wg_co2_metric_tons")} grams of CO2, '
                 f'{if_all_used_goog.get("wg_water_liters")} liter(s) of water, '
-                f'and {if_all_used_goog.get("wg_energy_kwh")} kW of energy per week.'
+                f'and use{if_all_used_goog.get("wg_energy_kwh")} kW of power per week.'
             )
         else:
             st.write("No scaling data available for Google searches.")
@@ -209,19 +209,19 @@ if st.session_state.page == "results":
         goog_comp = results.get("goog_comp",{})
         if goog_comp:
             st.write(
-                f'The energy produced from your weekly AI google searches is equivalent to running a fridge for {goog_comp.get("fridge_days_equivalent")} consecutive days.'
+                f'The power consumed from your weekly Google usage is equivalent to running a fridge for {goog_comp.get("fridge_days_equivalent")} consecutive days.'
             )
         else:
             st.write("No comparison data available.")
         st.subheader("Confused?")
-        clicked = st.button("Click here to learn how AI harms the environment.")
+        clicked = st.button("Click here to learn how AI can harm the environment.")
         if clicked:
             st.session_state._more_info = True
             st.session_state.page = "_more_info"
             _safe_rerun()
 
 if st.session_state.page == "_more_info":
-    st.title("How does AI harm the environment?") #i need to talk about what a data center is and that it is wht runs AI
+    st.title("How does AI harm the environment?")
     st.header("Water Usage")
     st.markdown("""Data centers generate an enormous amount of heat. Data centers cool their buildings with water but, because the machines are so delicate, the water used must be free from impurities and bacteria. Effectively, data centers consume the same water we do which raises concerns that AI could harm regions already experiencing water scarcity [1]. """)
     st.header("CO2 emmissions & Energy Consumption")
